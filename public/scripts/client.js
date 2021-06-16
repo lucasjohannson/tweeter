@@ -40,8 +40,9 @@ $(document).ready(function(){
     }
   }
 
-
-
+  const loadTweets = function () {
+    
+  }
 
   const createTweetElement = function (obj) { return $(
     `
@@ -78,12 +79,23 @@ $(document).ready(function(){
   `
   )}
 
+
+  $( ".target" ).submit(function( event ) {
+    event.preventDefault();
+    //const target = event.currentTarget;
+    console.log($(this).serialize());
+    console.log($('#tweet-text').val())
+
+    $.ajax({
+      url: "/tweets",
+      method: "POST",
+      data: $(this).serialize(),
+    });
+
+  });
+
   renderTweets(data);
 
-  // const $tweet = createTweetElement(tweetData);
-  // // Test / driver code (temporary)
-  // console.log($tweet); // to see what it looks like
-  // $('.new-tweet').append($tweet); // to add it to the page so we can make sure it's got all the right elements, classes, etc.
 
 });
 
