@@ -16,6 +16,10 @@ module.exports = function(DataHelpers) {
       }
     });
   });
+  
+  tweetsRoutes.post("/tweets/", (req, res) => {
+    return send("tweet made");
+  });
 
   tweetsRoutes.post("/", function(req, res) {
     if (!req.body.text) {
