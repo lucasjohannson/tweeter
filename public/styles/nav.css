@@ -38,8 +38,11 @@ span {
   font-family: 'Bungee', cursive;
 }
 
-/* 
-2 divs 
-one for span another for the text 
+@media only screen and (max-width: 768px) {
 
-*/
+  nav {
+    background-image: url("/images/background.png");
+    position: relative;
+  }
+
+}
