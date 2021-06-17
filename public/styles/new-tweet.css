@@ -18,6 +18,12 @@
   border-right-style: none ;
 
 }
+
+#error {
+  border-style: solid;
+  border-color: red;
+  color: red;
+}
 .new-tweet {
   width: 100%;
 }

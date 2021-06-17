@@ -5,6 +5,7 @@
  */
 
 $(document).ready(function(){
+  $(".error-msg" ).hide();
 
   const renderTweets = function(tweets) {
     console.log("🚀 ~ file: client.js ~ line 10 ~ renderTweets ~ tweets", tweets)
@@ -75,14 +76,25 @@ $(document).ready(function(){
 
   $( ".target" ).submit(function( event ) {
     event.preventDefault();
-    //const target = event.currentTarget;
-    // console.log($(this).serialize());
-    // const text = $('#tweet-text').val();
-    // if($('#tweet-text').val().length < 1){
-    //   alert("Tweet can't be empty silly :D")
-    // } else if ($('#tweet-text').val().length > 140){
-    //   alert("Tweet can't be longer that 140 characters")
-    // } else {
+    const target = event.currentTarget;
+    console.log($(this).serialize());
+    const text = $('#tweet-text').val();
+    if($('#tweet-text').val().length < 1){
+      $("#error").html("Invalid input").addClass("error-msg").hide(); // chained methods
+      if ( $(".error-msg").first().is( ":hidden" ) ) {
+        $( ".error-msg" ).slideDown( "slow" );
+      } else {
+        $(".error-msg" ).hide();
+      }
+    } else if ($('#tweet-text').val().length > 140){
+      $("#error").html("Tweet Cannot be longer than 140 characters").addClass("error-msg").hide(); // chained methods
+      if ( $(".error-msg").first().is( ":hidden" ) ) {
+        $( ".error-msg" ).slideDown( "slow" );
+      } else {
+        $(".error-msg" ).hide();
+      }
+    } else {
+      $(".error-msg" ).hide();
       $.ajax({
         url: "/tweets",
         method: "POST",
@@ -92,7 +104,7 @@ $(document).ready(function(){
         this.reset();
         loadTweets();
       })
-    //}
+    }
 
   });
 
