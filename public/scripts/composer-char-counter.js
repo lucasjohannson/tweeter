@@ -4,6 +4,11 @@ $(document).ready(function() {
   const time = document.getElementById("time");
   //time.innerHTML = timeago.format(new Date());
   // console.log(timeago.format(new Date()));
+  const escape = function (str) {
+    let div = document.createElement("div");
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  };
 
   inputField.addEventListener('input', function(event) {
     const target = event.currentTarget;

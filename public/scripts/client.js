@@ -44,7 +44,7 @@ $(document).ready(function(){
             <p> ${obj.user.handle} </p>
         </div>
       </header>
-      <p class = "tweet">${obj.content.text}</p>
+      <p class = "tweet">${escape(obj.content.text)}</p>
       <div class = "floor">
         <p id = "time">${timeago.format(obj.created_at)}</p>
         <div class = "icons">
@@ -67,16 +67,22 @@ $(document).ready(function(){
   `
   )}
 
+  const escape = function (str) {
+  let div = document.createElement("div");
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+  };
+
   $( ".target" ).submit(function( event ) {
     event.preventDefault();
     //const target = event.currentTarget;
-    console.log($(this).serialize());
-    console.log($('#tweet-text').val())
-    if($('#tweet-text').val().length < 1){
-      alert("Tweet can't be empty silly :D")
-    } else if ($('#tweet-text').val().length > 140){
-      alert("Tweet can't be longer that 140 characters")
-    } else {
+    // console.log($(this).serialize());
+    // const text = $('#tweet-text').val();
+    // if($('#tweet-text').val().length < 1){
+    //   alert("Tweet can't be empty silly :D")
+    // } else if ($('#tweet-text').val().length > 140){
+    //   alert("Tweet can't be longer that 140 characters")
+    // } else {
       $.ajax({
         url: "/tweets",
         method: "POST",
@@ -86,7 +92,7 @@ $(document).ready(function(){
         this.reset();
         loadTweets();
       })
-    }
+    //}
 
   });
 
