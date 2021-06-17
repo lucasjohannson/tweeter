@@ -5,35 +5,42 @@
  */
 
 $(document).ready(function(){
+  //hide the error message when the doc is loaded 
   $(".error-msg" ).hide();
 
+  //render tweets function 
   const renderTweets = function(tweets) {
-    console.log("🚀 ~ file: client.js ~ line 10 ~ renderTweets ~ tweets", tweets)
-    // loops through tweets
+    // empty the array
     $(".postedTweets").empty();
+    // loops through tweets
     tweets.forEach(tweet => {
+      //call createTweetElement on the looped tweet
       const $newTweet = createTweetElement(tweet);
+      //prepent the tweet to the posted tweets html section 
       $('.postedTweets').prepend($newTweet);
     });
   }
 
+  //loadTweets function 
   const loadTweets = function () {
+    //ajax get request
     $.ajax({
       url: "http://localhost:8080/tweets",
       method: 'GET',
       success: function(res) {
-      console.log("🚀 ~ file: client.js ~ line 25 ~ loadTweets ~ res", res)
-        //$newTweet = createTweetElement(res[res.length -1]);
-        //$('.postedTweets').append($newTweet);
+        //on sucessful get request render the tweets
         renderTweets(res);
       }
     });
   }
+  //load the tweets to the page 
+  loadTweets();
 
-  //loadTweets();
-
-
-  const createTweetElement = function (obj) { return $(
+  //createTweetElemnt function 
+  const createTweetElement = function (obj) { 
+  //return the html format with string literals to obtain info from the submitted form object 
+    
+    return $(
     `
     <article id= "art" class= "t1">
       <header class = "tweethead">
@@ -67,32 +74,48 @@ $(document).ready(function(){
 
   `
   )}
-
+  
+  //escape function to ensure that the input is safe from running script
+  // taken from compass 
   const escape = function (str) {
   let div = document.createElement("div");
   div.appendChild(document.createTextNode(str));
   return div.innerHTML;
   };
 
+  //Stretch when the arrow button below write a tweet is clicked then the form will be displayed 
+  $(".target").hide();
+  $('.arrow').click(function (){
+    if ( $(".target").first().is( ":hidden" ) ) {
+      $( ".target" ).slideDown( "slow" );
+    }
+  })
+
+  //handler for the tweet Submission 
   $( ".target" ).submit(function( event ) {
+    //prevent the page from being reloaded 
     event.preventDefault();
-    const target = event.currentTarget;
-    console.log($(this).serialize());
-    const text = $('#tweet-text').val();
+    //check if the length of the tweet is 0 
     if($('#tweet-text').val().length < 1){
-      $("#error").html("Invalid input").addClass("error-msg").hide(); // chained methods
+      //create html element in the error id section
+      $("#error").html("Invalid input").addClass("error-msg").hide();
+      //if the error message is hidden then show with a slide animation 
       if ( $(".error-msg").first().is( ":hidden" ) ) {
         $( ".error-msg" ).slideDown( "slow" );
+      //if the message is not hidden then hide it 
       } else {
         $(".error-msg" ).hide();
       }
+    // next check if the tweet length is greater that 140 chars
     } else if ($('#tweet-text').val().length > 140){
-      $("#error").html("Tweet Cannot be longer than 140 characters").addClass("error-msg").hide(); // chained methods
+      //if so do same error handling as the first case 
+      $("#error").html("Too Many Characters").addClass("error-msg").hide(); // chained methods
       if ( $(".error-msg").first().is( ":hidden" ) ) {
         $( ".error-msg" ).slideDown( "slow" );
       } else {
         $(".error-msg" ).hide();
       }
+    //there are no errors in the tweet then post the serialized event to /tweets and load the tweet
     } else {
       $(".error-msg" ).hide();
       $.ajax({
