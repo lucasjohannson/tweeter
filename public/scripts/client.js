@@ -6,38 +6,14 @@
 
 $(document).ready(function(){
 
-//   const data = [
-//     {
-//       "user": {
-//         "name": "Newton",
-//         "avatars": "https://i.imgur.com/73hZDYK.png"
-//         ,
-//         "handle": "@SirIsaac"
-//       },
-//       "content": {
-//         "text": "If I have seen further it is by standing on the shoulders of giants"
-//       },
-//       "created_at": 1461116232227
-//     },
-//     {
-//       "user": {
-//         "name": "Descartes",
-//         "avatars": "https://i.imgur.com/nlhLi3I.png",
-//         "handle": "@rd" },
-//       "content": {
-//         "text": "Je pense , donc je suis"
-//       },
-//       "created_at": 1461113959088
-//     }
-//   ]
-
   const renderTweets = function(tweets) {
+    console.log("🚀 ~ file: client.js ~ line 10 ~ renderTweets ~ tweets", tweets)
     // loops through tweets
-    for(let i = 0; i < tweets.length; i ++){
-      const $newTweet = createTweetElement(tweets[i]);
-      $('.new-tweet').append($newTweet); 
-
-    }
+    $(".postedTweets").empty();
+    tweets.forEach(tweet => {
+      const $newTweet = createTweetElement(tweet);
+      $('.postedTweets').prepend($newTweet);
+    });
   }
 
   const loadTweets = function () {
@@ -45,12 +21,15 @@ $(document).ready(function(){
       url: "http://localhost:8080/tweets",
       method: 'GET',
       success: function(res) {
+      console.log("🚀 ~ file: client.js ~ line 25 ~ loadTweets ~ res", res)
+        //$newTweet = createTweetElement(res[res.length -1]);
+        //$('.postedTweets').append($newTweet);
         renderTweets(res);
       }
     });
   }
 
-  loadTweets();
+  //loadTweets();
 
 
   const createTweetElement = function (obj) { return $(
@@ -93,16 +72,21 @@ $(document).ready(function(){
     //const target = event.currentTarget;
     console.log($(this).serialize());
     console.log($('#tweet-text').val())
-
-    $.ajax({
-      url: "/tweets",
-      method: "POST",
-      data: $(this).serialize(),
-    })
-    .then (() => {
-      this.reset();
-      loadTweets();
-    })
+    if($('#tweet-text').val().length < 1){
+      alert("Tweet can't be empty silly :D")
+    } else if ($('#tweet-text').val().length > 140){
+      alert("Tweet can't be longer that 140 characters")
+    } else {
+      $.ajax({
+        url: "/tweets",
+        method: "POST",
+        data: $(this).serialize(),
+      })
+      .then (() => {
+        this.reset();
+        loadTweets();
+      })
+    }
 
   });
 
