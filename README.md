@@ -16,7 +16,15 @@ This repository is the starter code for the project: Students will fork and clon
 - Express
 - Node 5.10.x or above
 
-##Functionality 
+## Screen Shots
+
+!["Exemplar active page"](https://github.com/lucasjohannson/tweeter/blob/master/docs/active.png?raw=true)
+!["Exemplar of invalid input"](https://github.com/lucasjohannson/tweeter/blob/master/docs/error.png?raw=true)
+!["When page is first loaded"](https://github.com/lucasjohannson/tweeter/blob/master/docs/init.png?raw=true)
+
+
+
+## Functionality 
 
 When loading the page the application has reponsive design and will adjust based on the size of the window. if the width is smaller than 768px (typical tablet sizing) then the page will be displayed with all the elements in a column and the nav bar will flow into the header with the users image and name displayed with the same background texture. If the page exeeds that width then the nav bar will have its own colour and the header will be wisplayed adjacent to the tweets section in a row. THe nav bar will also be fixed at the top of the screen. 
 
